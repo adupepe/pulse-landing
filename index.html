@@ -3,207 +3,400 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pulse — Twój zespół w jednym miejscu</title>
-<meta name="description" content="Pulse to nowoczesne narzędzie do zarządzania projektami dla zespołów, które chcą dowozić więcej." />
+<title>Pulse — Zarządzanie projektami i komunikacja zespołu w jednym miejscu</title>
+<meta name="description" content="Pulse łączy zadania, dokumenty i raporty w jednym narzędziu dla nowoczesnych zespołów produktowych." />
 <style>
   :root {
-    --bg: #0a0f1e;
-    --panel: #101728;
-    --border: #1e2a45;
+    --bg: #080c18;
+    --panel: #0f1628;
+    --panel-2: #141d34;
+    --border: #1f2b49;
     --text: #eef2ff;
-    --muted: #8ea0c0;
+    --muted: #8ea0c2;
     --accent: #4f7dff;
     --accent-2: #22d3ee;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+  body { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; overflow-x: hidden; }
+
   header {
-    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    position: sticky; top: 0; z-index: 40;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 32px; backdrop-filter: blur(14px);
-    background: rgba(10,15,30,.7); border-bottom: 1px solid transparent;
-    transition: border-color .3s;
+    padding: 16px 36px; backdrop-filter: blur(14px);
+    background: rgba(8,12,24,.8); border-bottom: 1px solid var(--border);
   }
-  header.scrolled { border-color: var(--border); }
-  .logo { font-weight: 800; font-size: 18px; }
+  .logo { font-weight: 800; font-size: 19px; text-decoration: none; color: var(--text); }
   .logo span { color: var(--accent-2); }
-  nav a { color: var(--muted); text-decoration: none; font-size: 14px; margin-left: 26px; transition: .15s; }
+  nav { display: flex; gap: 26px; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; transition: .15s; }
   nav a:hover { color: var(--text); }
   .btn {
     display: inline-block; text-decoration: none; font-weight: 600; font-size: 14px;
-    padding: 12px 26px; border-radius: 999px; transition: .2s; border: none; cursor: pointer;
+    padding: 12px 24px; border-radius: 999px; transition: .2s; border: none; cursor: pointer;
   }
   .btn-primary { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -8px rgba(79,125,255,.5); }
-  .btn-ghost { border: 1px solid var(--border); color: var(--text); background: transparent; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -8px rgba(79,125,255,.55); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--panel); }
   .btn-ghost:hover { border-color: var(--accent); }
+
+  /* HERO */
   .hero {
-    min-height: 100vh; display: grid; place-items: center; text-align: center;
-    padding: 120px 24px 60px; position: relative;
+    max-width: 1180px; margin: 0 auto; padding: 76px 24px 56px; text-align: center; position: relative;
   }
   .hero::before {
     content: ""; position: absolute; inset: 0;
-    background:
-      radial-gradient(600px 300px at 50% 0%, rgba(79,125,255,.18), transparent 70%),
-      radial-gradient(400px 240px at 80% 20%, rgba(34,211,238,.10), transparent 70%);
+    background: radial-gradient(640px 300px at 50% 0%, rgba(79,125,255,.22), transparent 70%);
     pointer-events: none;
   }
-  .hero-inner { position: relative; max-width: 780px; }
   .badge {
     display: inline-flex; align-items: center; gap: 8px;
-    border: 1px solid var(--border); border-radius: 999px;
-    padding: 7px 16px; font-size: 12px; color: var(--muted); margin-bottom: 26px;
+    border: 1px solid var(--border); background: var(--panel); border-radius: 999px;
+    padding: 6px 16px; font-size: 12px; color: var(--muted); margin-bottom: 22px;
   }
   .badge b { color: var(--accent-2); }
-  h1 { font-size: clamp(38px, 7vw, 68px); letter-spacing: -0.04em; line-height: 1.05; }
-  h1 .grad { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .hero p { color: var(--muted); font-size: 18px; margin: 22px auto 34px; max-width: 560px; }
-  .cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  section { max-width: 1100px; margin: 0 auto; padding: 100px 24px; }
-  .eyebrow { color: var(--accent-2); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-  h2 { font-size: clamp(28px, 4.5vw, 42px); letter-spacing: -0.03em; margin: 12px 0 14px; }
+  h1 { font-size: clamp(36px, 6.2vw, 64px); letter-spacing: -0.04em; line-height: 1.05; max-width: 820px; margin: 0 auto; }
+  .grad { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { color: var(--muted); font-size: 18px; margin: 20px auto 30px; max-width: 580px; }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  .hero-shot {
+    margin-top: 48px; border-radius: 22px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--panel);
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,.85);
+    display: grid; grid-template-columns: 1.15fr 1fr; text-align: left;
+  }
+  .shot-left { padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+  .kan-col { background: var(--panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .kan-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+  .task {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+  }
+  .task:last-child { margin-bottom: 0; }
+  .pill { font-size: 11px; padding: 3px 9px; border-radius: 999px; background: rgba(79,125,255,.18); color: #9bb6ff; }
+  .pill.ok { background: rgba(34,211,238,.16); color: var(--accent-2); }
+  .hero-shot img { width: 100%; height: 100%; min-height: 300px; object-fit: cover; }
+
+  .logos {
+    max-width: 1100px; margin: 18px auto 0; padding: 26px 24px; text-align: center;
+    color: var(--muted); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  }
+  .logo-row { display: flex; justify-content: center; gap: 42px; flex-wrap: wrap; margin-top: 14px; font-size: 16px; font-weight: 700; color: #5b6d92; letter-spacing: 0; text-transform: none; }
+
+  section { max-width: 1140px; margin: 0 auto; padding: 84px 24px; }
+  .eyebrow { color: var(--accent-2); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  h2 { font-size: clamp(28px, 4.2vw, 42px); letter-spacing: -0.03em; margin: 10px 0 12px; }
   .lead { color: var(--muted); max-width: 560px; font-size: 16px; }
-  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px; }
+
+  /* FEATURE SHOWCASE */
+  .show-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 40px; align-items: center; }
+  .show-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+  }
+  .show-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+  .show-body { padding: 24px; }
+  .show-body h3 { font-size: 20px; margin-bottom: 8px; }
+  .show-body p { color: var(--muted); font-size: 14px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
   .feature {
     background: var(--panel); border: 1px solid var(--border); border-radius: 18px;
-    padding: 28px; transition: .25s;
+    padding: 26px; transition: .22s;
   }
   .feature:hover { transform: translateY(-4px); border-color: var(--accent); }
   .feature .ic {
-    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
-    background: rgba(79,125,255,.12); color: var(--accent-2); font-size: 20px; margin-bottom: 18px;
+    width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+    background: rgba(79,125,255,.15); font-size: 19px; margin-bottom: 14px;
   }
-  .feature h3 { font-size: 17px; margin-bottom: 8px; }
-  .feature p { color: var(--muted); font-size: 14px; line-height: 1.6; }
-  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px; }
+  .feature h3 { font-size: 17px; margin-bottom: 6px; }
+  .feature p { color: var(--muted); font-size: 14px; }
+
+  /* PRICING */
+  .bill-toggle {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 999px;
+    padding: 5px; margin-top: 22px;
+  }
+  .bill-toggle button {
+    border: none; background: transparent; color: var(--muted);
+    padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .bill-toggle button.on { background: var(--accent); color: #fff; }
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
   .plan {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 18px;
-    padding: 30px; display: flex; flex-direction: column; gap: 14px; transition: .25s;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 20px;
+    padding: 30px; display: flex; flex-direction: column; gap: 14px; position: relative;
   }
-  .plan:hover { transform: translateY(-4px); }
-  .plan.pro { border-color: var(--accent); box-shadow: 0 0 40px -10px rgba(79,125,255,.35); position: relative; }
+  .plan.pro { border-color: var(--accent); box-shadow: 0 0 44px -12px rgba(79,125,255,.4); }
   .plan .tag {
     position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
     background: linear-gradient(90deg, var(--accent), var(--accent-2));
     font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 999px; color: #fff;
   }
-  .plan h3 { font-size: 15px; color: var(--muted); font-weight: 600; }
+  .plan h3 { font-size: 16px; color: var(--muted); }
   .plan .price { font-size: 38px; font-weight: 800; letter-spacing: -0.03em; }
-  .plan .price small { font-size: 14px; color: var(--muted); font-weight: 500; }
-  .plan ul { list-style: none; display: grid; gap: 10px; color: var(--muted); font-size: 14px; flex: 1; }
-  .plan li::before { content: "✓"; color: var(--accent-2); margin-right: 8px; }
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
-  .reveal.in { opacity: 1; transform: none; }
+  .plan .price small { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .plan ul { list-style: none; display: grid; gap: 9px; color: var(--muted); font-size: 14px; flex: 1; }
+  .plan li::before { content: "✓ "; color: var(--accent-2); font-weight: 700; }
+
+  /* TESTIMONIALS */
+  .testi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+  .t-card { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 24px; }
+  .t-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .t-head img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+  .t-head b { display: block; font-size: 14px; }
+  .t-head span { color: var(--muted); font-size: 12px; }
+  .t-card p { font-size: 14px; color: var(--text); }
+
+  /* FAQ */
+  .faq { display: grid; gap: 12px; margin-top: 30px; max-width: 780px; }
+  details {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px;
+  }
+  summary { cursor: pointer; font-weight: 600; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::after { content: "+"; color: var(--accent-2); font-size: 20px; }
+  details[open] summary::after { content: "−"; }
+  details p { color: var(--muted); font-size: 14px; margin-top: 10px; }
+
+  /* CTA DEMO */
+  .cta-box {
+    background: linear-gradient(135deg, #132046, #0f172a);
+    border: 1px solid var(--border); border-radius: 24px; padding: 48px; text-align: center;
+  }
+  .demo-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 520px; margin: 22px auto 0; }
+  .demo-form input {
+    flex: 1; min-width: 220px; padding: 13px 18px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px; outline: none;
+  }
+
   footer { border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 13px; padding: 40px 24px; }
-  @media (max-width: 860px) {
-    .features, .pricing { grid-template-columns: 1fr; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 90px);
+    background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; transition: transform .3s; z-index: 90;
+  }
+  .toast.show { transform: translate(-50%, 0); }
+
+  @media (max-width: 900px) {
+    .hero-shot, .show-grid, .features, .pricing, .testi { grid-template-columns: 1fr; }
     nav { display: none; }
   }
 </style>
 </head>
 <body>
-<header id="header">
-  <div class="logo">Pulse<span>●</span></div>
+
+<header>
+  <a href="#" class="logo">Pulse<span>●</span></a>
   <nav>
     <a href="#funkcje">Funkcje</a>
     <a href="#cennik">Cennik</a>
-    <a href="#kontakt">Kontakt</a>
+    <a href="#opinie">Opinie</a>
+    <a href="#faq">FAQ</a>
+    <a href="#demo">Kontakt</a>
   </nav>
-  <a class="btn btn-primary" href="#cennik">Wypróbuj za darmo</a>
+  <a class="btn btn-primary" href="#demo">Wypróbuj za darmo</a>
 </header>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="badge reveal"><b>Nowość</b> Pulse 2.0 już dostępny</div>
-    <h1 class="reveal">Cały zespół.<br />Jedno <span class="grad">źródło prawdy</span>.</h1>
-    <p class="reveal">Pulse łączy zadania, dokumenty i komunikację w jednym miejscu — żeby Twój zespół mógł dowozić więcej, szybciej.</p>
-    <div class="cta reveal">
-      <a class="btn btn-primary" href="#cennik">Zacznij za darmo</a>
-      <a class="btn btn-ghost" href="#funkcje">Zobacz funkcje ↓</a>
-    </div>
+<div class="hero">
+  <div class="badge"><b>Nowość</b> Pulse 2.4 z asystentem AI i widokiem osi czasu</div>
+  <h1>Cały zespół.<br />Jedno <span class="grad">źródło prawdy</span>.</h1>
+  <p>Pulse łączy zadania, dokumenty i raporty sprintu w jednym szybkim narzędziu — żeby Twój zespół dowoził projekty bez chaosu na czatach.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#demo">Załóż darmowe konto →</a>
+    <a class="btn btn-ghost" href="#funkcje">Zobacz jak to działa</a>
   </div>
-</section>
+
+  <div class="hero-shot">
+    <div class="shot-left">
+      <div class="kan-col">
+        <h4>W trakcie sprintu · Tydzień 42</h4>
+        <div class="task"><span>Redesign koszyka mobilnego</span><span class="pill">Frontend</span></div>
+        <div class="task"><span>Integracja webhooków Stripe</span><span class="pill ok">Gotowe w 90%</span></div>
+        <div class="task"><span>Audyt wydajności Core Web Vitals</span><span class="pill">QA</span></div>
+      </div>
+      <div class="kan-col">
+        <h4>Ostatnia aktywność zespołu</h4>
+        <div class="task"><span>Anna zamknęła 4 zadania w sprincie #18</span><span class="pill ok">+12 pkt</span></div>
+        <div class="task"><span>Wdrożenie produkcyjne v2.4.1 zakończone</span><span class="pill ok">0 błędów</span></div>
+      </div>
+    </div>
+    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" alt="Panel analityczny Pulse" />
+  </div>
+</div>
+
+<div class="logos">
+  Używany codziennie przez ponad 450 zespołów produktowych
+  <div class="logo-row">
+    <span>NordicPay</span><span>Atelier.io</span><span>KronoTech</span><span>Veloce</span><span>Chmura24</span>
+  </div>
+</div>
 
 <section id="funkcje">
-  <p class="eyebrow reveal">Funkcje</p>
-  <h2 class="reveal">Wszystko, czego potrzebujesz</h2>
-  <p class="lead reveal">Zbudowane z myślą o zespołach, które nie chcą tracić czasu na przełączanie narzędzi.</p>
+  <p class="eyebrow">Funkcje</p>
+  <h2>Stworzony dla zespołów, które cenią skupienie</h2>
+  <p class="lead">Zamiast pięciu osobnych zakładek w przeglądarce — jedno spójne środowisko pracy.</p>
+
+  <div class="show-grid">
+    <div class="show-card">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80" alt="Planowanie sprintu" loading="lazy" />
+      <div class="show-body">
+        <h3>Planowanie sprintów i roadmapa</h3>
+        <p>Przełączaj się jednym kliknięciem między tablicą Kanban, listą i osią czasu. Automatyczne wykrywanie wąskich gardeł zanim opóźnią wydanie.</p>
+      </div>
+    </div>
+    <div class="show-card">
+      <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=900&q=80" alt="Integracja z kodem" loading="lazy" />
+      <div class="show-body">
+        <h3>Dwukierunkowa synchronizacja z GitHubem</h3>
+        <p>Pull requesty automatycznie aktualizują status zadania, a wdrożenie na produkcję zamyka powiązane zgłoszenia i powiadamia zespół.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="features">
-    <div class="feature reveal">
-      <div class="ic">⚡</div>
-      <h3>Błyskawiczne zadania</h3>
-      <p>Twórz, przypisuj i zamykaj zadania w kilka sekund. Kanban, lista i kalendarz w jednym widoku.</p>
-    </div>
-    <div class="feature reveal">
-      <div class="ic">💬</div>
-      <h3>Komunikacja w kontekście</h3>
-      <p>Komentarze i wątki przyklejone do zadań — koniec z gubionymi wiadomościami na czatach.</p>
-    </div>
-    <div class="feature reveal">
-      <div class="ic">📊</div>
-      <h3>Raporty na żywo</h3>
-      <p>Postęp projektu, obciążenie zespołu i deadline'y — zawsze aktualne, zawsze pod ręką.</p>
-    </div>
+    <div class="feature"><div class="ic">⚡</div><h3>Skróty klawiszowe wszędzie</h3><p>Dodaj zadanie, przypisz osobę i ustaw priorytet bez odrywania rąk od klawiatury (Cmd/Ctrl + K).</p></div>
+    <div class="feature"><div class="ic">�</div><h3>Dokumenty obok zadań</h3><p>Specyfikacje techniczne i notatki ze spotkań żyją w tym samym projekcie co backlog.</p></div>
+    <div class="feature"><div class="ic">📊</div><h3>Raporty na żywo</h3><p>Wykresy burndown, velocity zespołu i prognoza dowiezienia — generowane automatycznie.</p></div>
   </div>
 </section>
 
 <section id="cennik">
-  <p class="eyebrow reveal">Cennik</p>
-  <h2 class="reveal">Prosty jak nasz produkt</h2>
-  <p class="lead reveal">Zacznij za darmo, skaluj kiedy potrzebujesz. Bez ukrytych opłat.</p>
+  <p class="eyebrow">Cennik</p>
+  <h2>Prosty i przewidywalny</h2>
+  <p class="lead">Zacznij za darmo bez karty płatniczej. Przy rozliczeniu rocznym oszczędzasz 20%.</p>
+
+  <div class="bill-toggle" id="billToggle">
+    <button class="on" data-mode="m">Miesięcznie</button>
+    <button data-mode="y">Rocznie (−20%)</button>
+  </div>
+
   <div class="pricing">
-    <div class="plan reveal">
+    <div class="plan">
       <h3>Starter</h3>
-      <div class="price">0 zł<small> / mies.</small></div>
+      <div class="price">0 zł<small> / zawsze</small></div>
       <ul>
         <li>Do 5 osób w zespole</li>
-        <li>3 projekty</li>
-        <li>Podstawowe raporty</li>
+        <li>3 aktywne projekty</li>
+        <li>Tablica Kanban i dokumenty</li>
+        <li>Integracja z GitHubem</li>
       </ul>
-      <a class="btn btn-ghost" href="#">Wybierz Starter</a>
+      <a class="btn btn-ghost" href="#demo">Załóż darmowe konto</a>
     </div>
-    <div class="plan pro reveal">
+
+    <div class="plan pro">
       <span class="tag">Najpopularniejszy</span>
       <h3>Pro</h3>
-      <div class="price">39 zł<small> / os. / mies.</small></div>
+      <div class="price"><span id="proPrice">39</span> zł<small> / os. / mies.</small></div>
       <ul>
-        <li>Nielimitowane projekty</li>
-        <li>Raporty i automatyzacje</li>
-        <li>Integracje (Slack, GitHub)</li>
+        <li>Nielimitowane projekty i historia</li>
+        <li>Oś czasu, cykle i automatyzacje</li>
+        <li>Raporty velocity i burndown</li>
+        <li>Integracje Slack, GitHub, Figma</li>
         <li>Priorytetowe wsparcie</li>
       </ul>
-      <a class="btn btn-primary" href="#">Wybierz Pro</a>
+      <a class="btn btn-primary" href="#demo">Rozpocznij 14 dni testów</a>
     </div>
-    <div class="plan reveal">
+
+    <div class="plan">
       <h3>Enterprise</h3>
-      <div class="price">Wycena<small> indywidualna</small></div>
+      <div class="price"><span id="entPrice">79</span> zł<small> / os. / mies.</small></div>
       <ul>
-        <li>SSO i zaawansowane role</li>
-        <li>Dedykowany opiekun</li>
-        <li>SLA 99,9%</li>
+        <li>Logowanie SSO (SAML / Google)</li>
+        <li>Zaawansowane uprawnienia i audyt</li>
+        <li>Dedykowany opiekun wdrożenia</li>
+        <li>Gwarancja SLA 99,95%</li>
       </ul>
-      <a class="btn btn-ghost" href="#">Porozmawiaj z nami</a>
+      <a class="btn btn-ghost" href="#demo">Umów prezentację</a>
     </div>
   </div>
 </section>
 
-<footer id="kontakt">
-  Pulse — demonstracyjna strona produktu SaaS · HTML / CSS / JavaScript
+<section id="opinie">
+  <p class="eyebrow">Opinie zespołów</p>
+  <h2>Co mówią liderzy produktu i inżynierii</h2>
+  <div class="testi">
+    <div class="t-card">
+      <div class="t-head">
+        <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Piotr" />
+        <div><b>Piotr Zieliński</b><span>CTO · NordicPay</span></div>
+      </div>
+      <p>„Przeszliśmy z Jiry w jedno popołudnie. Zespół 25 developerów wreszcie chętnie aktualizuje statusy zadań, bo interfejs działa błyskawicznie.”</p>
+    </div>
+    <div class="t-card">
+      <div class="t-head">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Natalia" />
+        <div><b>Natalia Kowalczyk</b><span>Head of Product · Atelier.io</span></div>
+      </div>
+      <p>„Dokumenty połączone bezpośrednio z zadaniami oszczędzają nam minimum 3 godziny spotkań tygodniowo.”</p>
+    </div>
+    <div class="t-card">
+      <div class="t-head">
+        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Marek" />
+        <div><b>Marek Nowicki</b><span>Tech Lead · KronoTech</span></div>
+      </div>
+      <p>„Integracja z GitHubem działa bezbłędnie — merge PR-a automatycznie przesuwa kartę i informuje QA.”</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <p class="eyebrow">FAQ</p>
+  <h2>Najczęstsze pytania</h2>
+  <div class="faq">
+    <details open>
+      <summary>Czy mogę wyeksportować zadania z Jiry, Trello lub Asany?</summary>
+      <p>Tak — wbudowany importer przenosi zadania, komentarze i użytkowników w mniej niż 5 minut.</p>
+    </details>
+    <details>
+      <summary>Czy darmowy plan Starter jest ograniczony czasowo?</summary>
+      <p>Nie. Do 5 osób w zespole możesz korzystać z planu Starter bezpłatnie bez limitu czasu.</p>
+    </details>
+    <details>
+      <summary>Gdzie przechowywane są dane?</summary>
+      <p>Wszystkie dane przechowujemy w certyfikowanych centrach danych w UE (Frankfurt) zgodnie z RODO.</p>
+    </details>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="cta-box">
+    <p class="eyebrow">Zacznij w 60 sekund</p>
+    <h2>Przetestuj Pulse ze swoim zespołem</h2>
+    <p style="color:var(--muted);max-width:480px;margin:0 auto">Wpisz służbowy e-mail — wyślemy link aktywacyjny do darmowego obszaru roboczego oraz 14 dni planu Pro.</p>
+    <form class="demo-form" id="demoForm">
+      <input type="email" required placeholder="twoje.imie@firma.pl" />
+      <button type="submit" class="btn btn-primary">Utwórz obszar roboczy</button>
+    </form>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  © 2026 Pulse — projekt demonstracyjny w portfolio Adriana Pietrygi · HTML / CSS / JavaScript
 </footer>
 
 <script>
-  const header = document.getElementById("header");
-  addEventListener("scroll", () => {
-    header.classList.toggle("scrolled", scrollY > 10);
+  document.getElementById("billToggle").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    document.querySelectorAll("#billToggle button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    const yearly = b.dataset.mode === "y";
+    document.getElementById("proPrice").textContent = yearly ? "31" : "39";
+    document.getElementById("entPrice").textContent = yearly ? "63" : "79";
   });
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  document.getElementById("demoForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const t = document.getElementById("toast");
+    t.textContent = "Link aktywacyjny wysłany! Sprawdź skrzynkę 🚀";
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2600);
+    e.target.reset();
+  });
 </script>
 </body>
 </html>
